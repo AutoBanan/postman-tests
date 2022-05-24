@@ -1,0 +1,563 @@
+{
+	"info": {
+		"_postman_id": "0c996f03-0172-4b80-88ae-4918151415ac",
+		"name": "Liabelle test collect",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12553207"
+	},
+	"item": [
+		{
+			"name": "Sign in",
+			"item": [
+				{
+					"name": "200 Sign in by user",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"var results = pm.response.json();\r",
+									"\r",
+									"pm.test(\"token is not empty\", function(){   \r",
+									"    pm.expect(results.access_key).not.equal('');\r",
+									"});\r",
+									"\r",
+									"pm.test(\"token is not null\", function(){    \r",
+									"    pm.expect(results.access_key).not.equal(null);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"pm.environment.set(\"access_token\", results.access_key);\r",
+									"\r",
+									"postman.setNextRequest(\"200 Change personal info\");"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"username\": \"ichornomaz2\",\r\n  \"password\": \"Qwer1234\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site_url}}auth/login/",
+							"host": [
+								"{{site_url}}auth"
+							],
+							"path": [
+								"login",
+								""
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "200 whoami",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"\r",
+									"const schema = {\r",
+									"    \"type\": \"object\",\r",
+									"  \"properties\": {\r",
+									"    \"id\": {\r",
+									"      \"type\": \"integer\"\r",
+									"    },\r",
+									"    \"username\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"full_name\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"email\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"phone_number\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"avatar\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"birth_date\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"about\": {\r",
+									"      \"type\": [\"string\", \"null\"]\r",
+									"    },\r",
+									"    \"notifications_enabled\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"date_deleted\": {\r",
+									"      \"type\": [\"string\", \"null\"]\r",
+									"    },\r",
+									"    \"has_premium\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"is_trial_available\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"has_active_trial\": {\r",
+									"      \"type\": \"boolean\"\r",
+									"    },\r",
+									"    \"meal_planner_updated_at\": {\r",
+									"      \"type\": \"string\"\r",
+									"    },\r",
+									"    \"trial_expires_at\": {\r",
+									"      \"type\": [\"string\", \"null\"] \r",
+									"    }\r",
+									"  },\r",
+									"  \"required\": [\r",
+									"    \"id\",\r",
+									"    \"username\",\r",
+									"    \"full_name\",\r",
+									"    \"email\",\r",
+									"    \"phone_number\",\r",
+									"    \"avatar\",\r",
+									"    \"birth_date\",\r",
+									"    \"about\",\r",
+									"    \"notifications_enabled\",\r",
+									"    \"date_deleted\",\r",
+									"    \"has_premium\",\r",
+									"    \"is_trial_available\",\r",
+									"    \"has_active_trial\",\r",
+									"    \"meal_planner_updated_at\",\r",
+									"    \"trial_expires_at\"\r",
+									"  ]\r",
+									"};\r",
+									"\r",
+									"// JS collab\r",
+									"pm.test(\"Schema is correct\", () => {\r",
+									"    pm.response.to.have.jsonSchema(schema);\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(\"200 Fitness Goals / Params\");\r",
+									"\r",
+									"// JS collab\r",
+									"pm.test('async test code 200', function (done) {\r",
+									"  setTimeout(() => {\r",
+									"    pm.expect(pm.response.code).to.equal(200);\r",
+									"    done();\r",
+									"  }, 1500);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{site_url}}users/whoami/",
+							"host": [
+								"{{site_url}}users"
+							],
+							"path": [
+								"whoami",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "200 Change personal info",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"     pm.response.to.be.ok;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"username=pm.environment.get('RandomName');\r",
+									"email=pm.environment.get('RandomEmail');\r",
+									"// JS collab\r",
+									"setTimeout(function(){\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.environment.get(\"site_url\") + 'users/whoami/',\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Accept\": \"application/json, text/plain, */*\",\r",
+									"            \"Authorization\": \"Token \"+pm.environment.get(\"access_token\")\r",
+									"        },\r",
+									"        body: {}\r",
+									"    }, \r",
+									"    function (err, res) {\r",
+									"        var response = res.json();\r",
+									"        pm.test('Data changed', function(){\r",
+									"            pm.expect(res).to.have.status(200);\r",
+									"            pm.expect(response.full_name) != undefined;\r",
+									"            pm.expect(response.email).to.not.equal([]);\r",
+									"        });        \r",
+									"\r",
+									"        pm.test('Data username correct', function(){\r",
+									"            pm.expect(response.full_name).to.include(username);       \r",
+									"        });\r",
+									"\r",
+									"        pm.test('Data email correct', function(){        \r",
+									"            pm.expect(res.json().email).equal(email);\r",
+									"        });\r",
+									"\r",
+									"    });\r",
+									"}, 2000);\r",
+									"\r",
+									"// JS collab\r",
+									"postman.setNextRequest(\"200 whoami\");\r",
+									"\r",
+									"pm.environment.unset(\"RandomName\");\r",
+									"pm.environment.unset(\"RandomEmail\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"RandomName\",pm.variables.replaceIn('{{$randomFullName}}'));\r",
+									"pm.environment.set(\"RandomEmail\",pm.variables.replaceIn('{{$randomEmail}}'));\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "username",
+									"value": "ichornomaz2",
+									"type": "text"
+								},
+								{
+									"key": "full_name",
+									"value": "{{RandomName}}",
+									"type": "text"
+								},
+								{
+									"key": "email",
+									"value": "{{RandomEmail}}",
+									"type": "text"
+								},
+								{
+									"key": "birth_date",
+									"value": "2000-01-29",
+									"type": "text"
+								},
+								{
+									"key": "height",
+									"value": "180",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "weight",
+									"value": "150",
+									"type": "text",
+									"disabled": true
+								},
+								{
+									"key": "avatar",
+									"type": "file",
+									"src": "/C:/Users/Maydance/Pictures/Без названия (2).png"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{site_url}}users/personal-info/",
+							"host": [
+								"{{site_url}}users"
+							],
+							"path": [
+								"personal-info",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "200 Fitness Goals / Params",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.environment.set(\"RandomName\",\" \");\r",
+									"\r",
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"response must be valid and have a body\", function () {\r",
+									"     pm.response.to.be.ok;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});\r",
+									"\r",
+									"username=pm.environment.get('RandomName');\r",
+									"email=pm.environment.get('RandomEmail');\r",
+									"\r",
+									"setTimeout(function(){\r",
+									"    pm.sendRequest({\r",
+									"        url: pm.environment.get(\"site_url\") + 'users/my-settings/',\r",
+									"        method: \"GET\",\r",
+									"        header: {\r",
+									"            \"Accept\": \"application/json, text/plain, */*\",\r",
+									"            \"Authorization\": \"Token \"+pm.environment.get(\"access_token\")\r",
+									"        },\r",
+									"        body: {}\r",
+									"    }, \r",
+									"    function (err, res) {\r",
+									"        var response = res.json();\r",
+									"        pm.test('Data changed', function(){\r",
+									"            pm.expect(res).to.have.status(200);\r",
+									"            pm.expect(response.height) != undefined;\r",
+									"            pm.expect(response.height).to.not.equal([]);\r",
+									"            pm.expect(response.weight) != undefined;\r",
+									"            pm.expect(response.weight).to.not.equal([]);\r",
+									"        });\r",
+									"        \r",
+									"\r",
+									"        pm.test('Data weight correct', function(){        \r",
+									"            pm.expect(res.json().weight).is.lessThan(251);\r",
+									"            pm.expect(res.json().weight).is.greaterThan(34);\r",
+									"            pm.expect(res.json().weight).not.equal(null);\r",
+									"            pm.expect(res.json().weight).not.equal('');        \r",
+									"        });\r",
+									"\r",
+									"        pm.test('Data height correct', function(){                \r",
+									"            pm.expect(res.json().height).is.lessThan(251);\r",
+									"            pm.expect(res.json().height).is.greaterThan(34);\r",
+									"            pm.expect(res.json().height).not.equal(null);\r",
+									"            pm.expect(res.json().height).not.equal('');\r",
+									"        });\r",
+									"\r",
+									"        pm.test('Data goal correct', function(){                \r",
+									"            pm.expect(res.json().goal).equal(\"GAIN_WEIGHT\");           \r",
+									"        });\r",
+									"\r",
+									"        pm.test('Data height correct', function(){                \r",
+									"            pm.expect(res.json().aimed_weight).is.lessThan(251);\r",
+									"            pm.expect(res.json().aimed_weight).is.greaterThan(34);\r",
+									"            pm.expect(res.json().aimed_weight).not.equal(null);\r",
+									"            pm.expect(res.json().aimed_weight).not.equal('');\r",
+									"            pm.expect(res.json().aimed_weight).greaterThan(res.json().weight);\r",
+									"            pm.expect(res.json().aimed_weight).not.equal(res.json().weight);\r",
+									"\r",
+									"        });\r",
+									"    });\r",
+									"}, 2000);\r",
+									"\r",
+									"postman.setNextRequest(\"200 whoami\");\r",
+									"\r",
+									"postman.setNextRequest(\"200 search ingredients\");"
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									"pm.request.headers.add({\r",
+									"  key: \"Accept-Language\",\r",
+									"  value: \"ru-RU,ru;q=0.9\"\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{access_token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"goal\": \"GAIN_WEIGHT\",\r\n    \"aimed_weight\": 93,\r\n    \"weight\": 83,\r\n    \"height\": 188,\r\n    \"sex\": \"MALE\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{site_url}}onboarding/steps/goals/",
+							"host": [
+								"{{site_url}}onboarding"
+							],
+							"path": [
+								"steps",
+								"goals",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "200 search ingredients",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Included results\", function () {\r",
+									"    var resultsList = pm.response.json().results;\r",
+									"\r",
+									"    pm.expect(resultsList).to.not.eql([]);\r",
+									"    resultsList.forEach(function(result){        \r",
+									"        pm.expect(result.name).to.include(\"beef\");\r",
+									"    });\r",
+									"});\r",
+									"\r",
+									"postman.setNextRequest(null);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Token {{access_token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "{{site_url}}recipes/ingredients/?limit=40&offset=0&search=beef",
+							"host": [
+								"{{site_url}}recipes"
+							],
+							"path": [
+								"ingredients",
+								""
+							],
+							"query": [
+								{
+									"key": "limit",
+									"value": "40"
+								},
+								{
+									"key": "offset",
+									"value": "0"
+								},
+								{
+									"key": "search",
+									"value": "beef"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"// pm.environment.set(\"RandomName\",pm.variables.replaceIn('{{$randomFullName}}'));",
+							"// pm.environment.set(\"RandomEmail\",pm.variables.replaceIn('{{$randomEmail}}'));"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"// pm.environment.set(\"site_url\",'https://api.stage.liabeli.scenario-projects.com/');",
+					"// pm.environment.set(\"RandomName\",'');",
+					"// pm.environment.set(\"RandomEmail\",'');"
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
